@@ -1,4 +1,4 @@
-name: yusr
+name: gpyusr1
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -31,14 +31,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   hexcolor: ^3.0.1
   image_picker: ^0.8.6
   video_player:
+  firebase_analytics: ^10.1.0
+  firebase_auth: ^4.2.4
+  cloud_firestore: ^4.3.1
+  #flutter_gradient_colors: ^2.1.1
+  fluttertoast: ^8.1.2
+  firebase_core_web: ^2.1.0
+
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  sqflite: ^2.2.2
+  firebase_core: ^2.4.1
+  firebase_core_platform_interface: ^4.5.2
+  pdf: ^3.8.4
+  path_provider: ^2.0.11
+  open_document: ^1.0.5
+  audioplayers: ^2.0.0
+  audioplayers_darwin: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -75,16 +89,29 @@ flutter:
     - assets/تعليمات الارقام.png
     - assets/اختيار اللاعب.png
     - assets/user.png
+    - assets/CLA.png
+    - assets/L1.png
+    - assets/L2.png
+    - assets/L3.png
+    - assets/لعبة الاصوات.png
+    - assets/audio.png
+    - assets/parrot.wav
+    - assets/rightAnswer.png
+    - assets/wrongAnswer.png
+    - assets/لعبة الاحرف.png
+    - assets/camera.png
+  fonts:
+    - family: Jomhuria
+      fonts:
+        - asset: fonts/Jomhuria-Regular.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-  fonts:
-    - family: Jomhuria
-      fonts:
-        - asset: fonts/Jomhuria-Regular.ttf
+
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
