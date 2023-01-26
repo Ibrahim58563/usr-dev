@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gpyusr/main.dart';
-import 'package:gpyusr/screens/ViewAccount.dart';
-import 'package:gpyusr/screens/addChild.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import 'addChild.dart';
 
 class editAccount extends StatefulWidget {
   const editAccount({Key? key}) : super(key: key);

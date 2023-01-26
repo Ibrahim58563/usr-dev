@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gpyusr/screens/alphains.dart';
-import 'package:gpyusr/screens/soundins.dart';
-import 'package:gpyusr/screens/numins.dart';
+import 'package:gpyusr1/screens/alphains.dart';
+import 'package:gpyusr1/screens/numins.dart';
+import 'package:gpyusr1/screens/soundins.dart';
 
 class chooseCat extends StatefulWidget {
   @override

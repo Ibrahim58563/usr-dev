@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gpyusr/screens/chooseCategory.dart';
+import 'package:gpyusr1/screens/viewAccount.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:gpyusr/screens/editAccount.dart';
-import 'package:gpyusr/screens/viewAccount.dart';
+
+import 'chooseCategory.dart';
 
 
 class chooseProf extends StatefulWidget {

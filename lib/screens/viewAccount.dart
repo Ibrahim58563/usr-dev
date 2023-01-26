@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gpyusr/screens/editAccount.dart';
-import 'package:gpyusr/main.dart';
-import 'package:gpyusr/screens/login.dart';
+import 'package:gpyusr1/screens/report.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:gpyusr/screens/report.dart';
+
+import 'editAccount.dart';
+import 'login.dart';
 
 class ViewAccount extends StatefulWidget {
   const ViewAccount({Key? key}) : super(key: key);

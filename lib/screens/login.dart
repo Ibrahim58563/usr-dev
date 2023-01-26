@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gpyusr/screens/chooseCategory.dart';
-import 'package:gpyusr/screens/register.dart';
+import 'package:gpyusr1/screens/register.dart';
+import 'package:gpyusr1/screens/resetpass.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:gpyusr/main.dart';
-import 'package:gpyusr/screens/start.dart';
-import 'package:gpyusr/screens/viewAccount.dart';
-import 'package:gpyusr/screens/chooseprofile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gpyusr/screens/resetpass.dart';
+
+import 'chooseprofile.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);

@@ -1,5 +1,3 @@
-import 'package:gpyusr/screens/login.dart';
-import 'package:gpyusr/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

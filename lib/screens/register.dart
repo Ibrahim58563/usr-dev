@@ -1,11 +1,6 @@
-import 'package:gpyusr/screens/addChild.dart';
 import 'package:flutter/material.dart';
-import 'package:gpyusr/screens/chooseCategory.dart';
-import 'package:gpyusr/screens/chooseprofile.dart';
-import 'package:gpyusr/screens/login.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:gpyusr/main.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -13,8 +8,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:path/path.dart' as Path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gpyusr/usermodel.dart';
-import 'package:gpyusr/screens/start.dart';
+
+import 'addChild.dart';
+import 'chooseprofile.dart';
 
 void main() => runApp(MaterialApp(
   home: MyRegister(),
