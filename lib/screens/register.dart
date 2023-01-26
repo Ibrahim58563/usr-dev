@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:gpyusr1/screens/login.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -12,19 +13,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'addChild.dart';
 import 'chooseprofile.dart';
 
-void main() => runApp(MaterialApp(
-  home: MyRegister(),
-),);
-
+void main() => runApp(
+      MaterialApp(
+        home: MyRegister(),
+      ),
+    );
 
 class MyRegister extends StatelessWidget {
   //final _auth = FirebaseAuth.instance;
-  final _formKey= GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordEditingController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController confirmPasswordEditingController =
-  new TextEditingController();
+      new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +56,9 @@ class MyRegister extends StatelessWidget {
         fillColor: Color.fromARGB(223, 223, 239, 241),
         filled: true,
         hintText: "البريد الإلكتروني",
-        hintStyle: TextStyle(
-            color: HexColor('#D68866'),
-            fontSize: 30),
-        enabledBorder: OutlineInputBorder( //<-- SEE HERE
+        hintStyle: TextStyle(color: HexColor('#D68866'), fontSize: 30),
+        enabledBorder: OutlineInputBorder(
+          //<-- SEE HERE
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide(width: 0, color: Colors.white),
         ),
@@ -90,10 +91,9 @@ class MyRegister extends StatelessWidget {
         fillColor: Color.fromARGB(223, 223, 239, 241),
         filled: true,
         hintText: "كلمة المرور",
-        hintStyle: TextStyle(
-            color: HexColor('#D68866'),
-            fontSize: 30),
-        enabledBorder: OutlineInputBorder( //<-- SEE HERE
+        hintStyle: TextStyle(color: HexColor('#D68866'), fontSize: 30),
+        enabledBorder: OutlineInputBorder(
+          //<-- SEE HERE
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide(width: 0, color: Colors.white),
         ),
@@ -105,7 +105,8 @@ class MyRegister extends StatelessWidget {
       controller: confirmPasswordEditingController,
       obscureText: true,
       validator: (value) {
-        if (confirmPasswordEditingController.text != passwordEditingController.text ) {
+        if (confirmPasswordEditingController.text !=
+            passwordEditingController.text) {
           return "كلمة المرور لا تطابق";
         }
         return null;
@@ -123,10 +124,9 @@ class MyRegister extends StatelessWidget {
         fillColor: Color.fromARGB(223, 223, 239, 241),
         filled: true,
         hintText: "إعادة كلمة المرور",
-        hintStyle: TextStyle(
-            color: HexColor('#D68866'),
-            fontSize: 30),
-        enabledBorder: OutlineInputBorder( //<-- SEE HERE
+        hintStyle: TextStyle(color: HexColor('#D68866'), fontSize: 30),
+        enabledBorder: OutlineInputBorder(
+          //<-- SEE HERE
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide(width: 0, color: Colors.white),
         ),
@@ -138,12 +138,10 @@ class MyRegister extends StatelessWidget {
       child: ElevatedButton(
           child: Text('تسجيل'),
           onPressed: () {
-            //signUp(emailController.text, passwordEditingController.text,context);
+            signUp(
+                emailController.text, passwordEditingController.text, context);
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        chooseProf()));
+                context, MaterialPageRoute(builder: (context) => MyLogin()));
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(278, 70),
@@ -154,12 +152,8 @@ class MyRegister extends StatelessWidget {
                 fontFamily: 'Jomhuria',
                 fontStyle: FontStyle.normal),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),)
-
-      ),
-
-
-
+                borderRadius: BorderRadius.circular(30.0)),
+          )),
     );
     return Container(
       width: 150,
@@ -174,7 +168,6 @@ class MyRegister extends StatelessWidget {
           children: [
             SingleChildScrollView(
               child: Container(
-
                 child: Padding(
                   padding: const EdgeInsets.all(36.0),
                   child: Form(
@@ -196,8 +189,8 @@ class MyRegister extends StatelessWidget {
                                   fontSize: 90,
                                   fontFamily: 'Jomhuria'),
                             ),
-                          )
-                          , emailField,
+                          ),
+                          emailField,
                           SizedBox(
                             height: 30,
                           ),
@@ -210,7 +203,8 @@ class MyRegister extends StatelessWidget {
                             height: 40,
                           ),
                           TextButton.icon(
-                            label: Text('إضافة طفل',
+                            label: Text(
+                              'إضافة طفل',
                               style: TextStyle(
                                 fontFamily: 'Jomhuria',
                                 fontSize: 30,
@@ -222,22 +216,18 @@ class MyRegister extends StatelessWidget {
                               size: 40,
                               color: Colors.black,
                             ),
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          addChild()));
+                                      builder: (context) => addChild()));
                             },
                           ),
                           SizedBox(
                             height: 60,
                           ),
-
                           signinButton,
-
-                        ]
-                    ),
+                        ]),
                   ),
                 ),
               ),
@@ -247,16 +237,21 @@ class MyRegister extends StatelessWidget {
       ),
     );
   }
-  /*void signUp(String email, String password,context) async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(context)})
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+
+  void signUp(String email, String password, context) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
     }
-  }*/
+  }
 
   /*postDetailsToFirestore(context) async
   {
@@ -276,6 +271,5 @@ class MyRegister extends StatelessWidget {
             (route) => false);
 
   }*/
-
 
 }

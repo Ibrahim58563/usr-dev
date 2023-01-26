@@ -11,8 +11,8 @@ import 'package:firebase_core_platform_interface/firebase_core_platform_interfac
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      name: "Yusr", options: DefaultFirebaseOptions.currentPlatform);
-
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
