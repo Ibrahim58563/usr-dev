@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gpyusr1/screens/register.dart';
 import 'package:gpyusr1/screens/resetpass.dart';
@@ -96,7 +97,7 @@ class _MyLoginState extends State<MyLogin> {
     final loginButton = ElevatedButton(
         child: Text('تسجيل الدخول'),
         onPressed: () {
-          //signIn(emailContoller.text, passwordContoller.text);
+          signIn(emailContoller.text, passwordContoller.text);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => chooseProf()));
         },
@@ -225,19 +226,19 @@ class _MyLoginState extends State<MyLogin> {
       ),
     );
   }
-  //login function
-  /*Future<void> signIn(String email, String password) async{
-    if(_formKey.currentState!.validate()){
-      await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-        Fluttertoast.showToast(msg: "تم تسجيل الدخول بنجاح!"),
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ViewAccount())),
-      }).catchError((e){
-        Fluttertoast.showToast(msg: e!.message) ;
-      }
-      );
-    }
-  }*/
 
+  //login function
+  Future<void> signIn(String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 }

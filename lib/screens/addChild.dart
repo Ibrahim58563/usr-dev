@@ -3,7 +3,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class addChild extends StatefulWidget {
   @override
   State<addChild> createState() => _addChildState();
@@ -12,27 +11,30 @@ class addChild extends StatefulWidget {
 class _addChildState extends State<addChild> {
   XFile? _imageFile;
   final ImagePicker _Picker = ImagePicker();
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController ageController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150,
       child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 255, 255, 255),
-            elevation: 0,
-            foregroundColor: Colors.grey,
+          elevation: 0,
+          foregroundColor: Colors.grey,
 
-            //bottomOpacity: 0.0,
-          ),
+          //bottomOpacity: 0.0,
+        ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(
-                    right: 15, top: 20, left: 15, bottom: 20),
+                margin:
+                    EdgeInsets.only(right: 15, top: 20, left: 15, bottom: 20),
                 alignment: Alignment.topRight,
                 padding: EdgeInsets.fromLTRB(36, 36, 36, 50),
                 child: Text(
@@ -55,13 +57,16 @@ class _addChildState extends State<addChild> {
                 padding: EdgeInsets.fromLTRB(36, 5, 36, 17),
                 child: TextFormField(
                   textAlign: TextAlign.right,
+                  controller: nameController,
+                  keyboardType: TextInputType.name,
                   style: TextStyle(
                     fontSize: 30,
                     fontFamily: 'Jomhuria',
                     color: HexColor('#D68866'),
                   ),
                   decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(//<-- SEE HERE
+                    enabledBorder: OutlineInputBorder(
+                      //<-- SEE HERE
                       borderRadius: BorderRadius.circular(30.0),
                       borderSide: BorderSide(width: 0, color: Colors.white),
                     ),
@@ -71,11 +76,10 @@ class _addChildState extends State<addChild> {
                   ),
                 ),
               ),
-
-
               Padding(
                 padding: EdgeInsets.fromLTRB(30, 10, 30, 50),
                 child: TextFormField(
+                  controller: ageController,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     // for below version 2 use this
@@ -90,7 +94,8 @@ class _addChildState extends State<addChild> {
                     color: HexColor('#D68866'),
                   ),
                   decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(//<-- SEE HERE
+                    enabledBorder: OutlineInputBorder(
+                      //<-- SEE HERE
                       borderRadius: BorderRadius.circular(30.0),
                       borderSide: BorderSide(width: 0, color: Colors.white),
                     ),
@@ -108,7 +113,13 @@ class _addChildState extends State<addChild> {
                 child: ElevatedButton(
                     child: Text('إضافة'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.pop(
+                        context,
+                        {
+                          "name": nameController.text,
+                          "age": ageController.text
+                        },
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(278, 70),
@@ -119,21 +130,20 @@ class _addChildState extends State<addChild> {
                           fontFamily: 'Jomhuria',
                           fontStyle: FontStyle.normal),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),)
-
-                ),
+                          borderRadius: BorderRadius.circular(30.0)),
+                    )),
               ),
             ],
-
           ),
         ),
-      ),);
+      ),
+    );
   }
 
-  Widget imageProfile(){
+  Widget imageProfile() {
     return Center(
       child: Stack(
-        children: <Widget> [
+        children: <Widget>[
           Positioned(
             child: InkWell(
               onTap: () {
@@ -153,17 +163,16 @@ class _addChildState extends State<addChild> {
       ),
     );
   }
-  Widget bottomSheet(){
+
+  Widget bottomSheet() {
     return Container(
       height: 130.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 20.0
-      ),
+      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Column(
         children: <Widget>[
-          Text('اختر صورة الحساب',
+          Text(
+            'اختر صورة الحساب',
             style: TextStyle(
               fontFamily: 'Jomhuria',
               fontSize: 40.0,
@@ -173,10 +182,12 @@ class _addChildState extends State<addChild> {
           SizedBox(
             height: 20.0,
           ),
-          Row( mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton.icon(
-                label: Text('الكاميرا',
+                label: Text(
+                  'الكاميرا',
                   style: TextStyle(
                     fontFamily: 'Jomhuria',
                     fontSize: 30,
@@ -188,12 +199,13 @@ class _addChildState extends State<addChild> {
                   size: 40,
                   color: Colors.black,
                 ),
-                onPressed: (){
+                onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
               ),
               TextButton.icon(
-                label: Text('الصور',
+                label: Text(
+                  'الصور',
                   style: TextStyle(
                     fontFamily: 'Jomhuria',
                     fontSize: 30,
@@ -205,10 +217,9 @@ class _addChildState extends State<addChild> {
                   size: 40,
                   color: Colors.black,
                 ),
-                onPressed: (){
+                onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
-
               ),
             ],
           ),
@@ -216,6 +227,7 @@ class _addChildState extends State<addChild> {
       ),
     );
   }
+
   void takePhoto(ImageSource media) async {
     var pickedFile = await _Picker.pickImage(
       source: media,
@@ -225,4 +237,3 @@ class _addChildState extends State<addChild> {
     });
   }
 }
-

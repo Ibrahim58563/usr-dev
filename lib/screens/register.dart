@@ -19,15 +19,24 @@ void main() => runApp(
       ),
     );
 
-class MyRegister extends StatelessWidget {
+class MyRegister extends StatefulWidget {
+  @override
+  State<MyRegister> createState() => _MyRegisterState();
+}
+
+class _MyRegisterState extends State<MyRegister> {
   //final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController emailController = new TextEditingController();
+
   final TextEditingController passwordEditingController =
       new TextEditingController();
+
   final TextEditingController confirmPasswordEditingController =
       new TextEditingController();
-
+  String? name;
+  String? age;
   @override
   Widget build(BuildContext context) {
     final emailField = TextFormField(
@@ -216,11 +225,15 @@ class MyRegister extends StatelessWidget {
                               size: 40,
                               color: Colors.black,
                             ),
-                            onPressed: () {
-                              Navigator.push(
+                            onPressed: () async {
+                              final dynamic _response = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => addChild()));
+                              name = _response["name"];
+                              age = _response["age"];
+                              print(name);
+                              print(age);
                             },
                           ),
                           SizedBox(
@@ -242,6 +255,33 @@ class MyRegister extends StatelessWidget {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Name, email address, and profile photo URL
+        final userName = user.displayName;
+        final email = user.email;
+        final photoUrl = user.photoURL;
+
+        // Check if user's email is verified
+        final emailVerified = user.emailVerified;
+
+        // The user's ID, unique to the Firebase project. Do NOT use this value to
+        // authenticate with your backend server, if you have one. Use
+        // User.getIdToken() instead.
+        final uid = user.uid;
+        debugPrint(uid);
+        var collection = FirebaseFirestore.instance.collection('users');
+        collection
+            .doc(uid).collection('child').doc(uid) // <-- Document ID
+            .set({
+              'parent': uid,
+              'name': name,
+              'age': age,
+              'photoUrl': 'assets/alpha.png',
+            }) // <-- Your data
+            .then((_) => print('Added'))
+            .catchError((error) => print('Add failed: $error'));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -252,24 +292,4 @@ class MyRegister extends StatelessWidget {
       print(e);
     }
   }
-
-  /*postDetailsToFirestore(context) async
-  {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    UserModel userModel = UserModel();
-    userModel.email = user!.email;
-    userModel.pid = user.uid;
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "تم إنشاء حسابك بنجاح");
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => start()),
-            (route) => false);
-
-  }*/
-
 }
