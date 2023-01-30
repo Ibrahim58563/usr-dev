@@ -30,7 +30,6 @@ class _addChildState extends State<addChild> {
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
           foregroundColor: Colors.grey,
-
           //bottomOpacity: 0.0,
         ),
         body: SingleChildScrollView(
@@ -123,7 +122,7 @@ class _addChildState extends State<addChild> {
                           .set({
                         "name": nameController.text,
                         "age": ageController.text,
-                        "childParent": uid,
+                        "parent": uid,
                       }); // <-- Your data
                     },
                     style: ElevatedButton.styleFrom(

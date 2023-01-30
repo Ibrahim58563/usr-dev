@@ -146,18 +146,16 @@ class _MyRegisterState extends State<MyRegister> {
       padding: EdgeInsets.only(bottom: 0.0),
       child: ElevatedButton(
           child: Text('تسجيل'),
-          onPressed: ()async {
+          onPressed: () async {
             signUp(
                 emailController.text, passwordEditingController.text, context);
-            // final dynamic _response = await 
+            // final dynamic _response = await
             Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => addChild()));
-                              // name = _response["name"];
-                              // age = _response["age"];
-                              // print(name);
-                              // print(age);
+                context, MaterialPageRoute(builder: (context) => addChild()));
+            // name = _response["name"];
+            // age = _response["age"];
+            // print(name);
+            // print(age);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(278, 70),
@@ -261,34 +259,37 @@ class _MyRegisterState extends State<MyRegister> {
   void signUp(String email, String password, context) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        // Name, email address, and profile photo URL
-        final userName = user.displayName;
-        final email = user.email;
-        final photoUrl = user.photoURL;
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
         
-        // Check if user's email is verified
-        final emailVerified = user.emailVerified;
+        return value;
+      });
+      final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final userName = user.displayName;
+          final email = user.email;
+          final photoUrl = user.photoURL;
 
-        // The user's ID, unique to the Firebase project. Do NOT use this value to
-        // authenticate with your backend server, if you have one. Use
-        // User.getIdToken() instead.
-        final uid = user.uid;
-        debugPrint(uid);
-        var collection = FirebaseFirestore.instance.collection('users');
-        collection
-            .doc() // <-- Document ID
-            .set({
-              'parent': uid,
-              'name': user.email!,
-              // 'age': age,
-              // 'photoUrl': 'assets/alpha.png',
-            }) // <-- Your data
-            .then((_) => print('Added'))
-            .catchError((error) => print('Add failed: $error'));
-      }
+          // Check if user's email is verified
+          final emailVerified = user.emailVerified;
+
+          // The user's ID, unique to the Firebase project. Do NOT use this value to
+          // authenticate with your backend server, if you have one. Use
+          // User.getIdToken() instead.
+          final uid = user.uid;
+          debugPrint(uid);
+          var collection = FirebaseFirestore.instance.collection('users');
+          collection.doc() // <-- Document ID
+              .set({
+            'parent': user.uid,
+            'name': user.email!,
+            // 'age': age,
+            // 'photoUrl': 'assets/alpha.png',
+          }) // <-- Your data
+              .then((_) {
+            print('Added');
+          }).catchError((error) => print('Add failed: $error'));
+        }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

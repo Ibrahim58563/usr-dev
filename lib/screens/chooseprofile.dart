@@ -49,7 +49,7 @@ class _chooseProf extends State<chooseProf> {
     // print(childs[index]['name']);
 
     childs.forEach((element) {
-      if (element['childParent'] == 'r2dhD5lBepRSQwKJwRL2CXaJEfR2') {
+      if (element['parent'] == uid) {
         print("element name is : ${element['name']}");
       }
     });
