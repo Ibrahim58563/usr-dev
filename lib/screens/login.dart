@@ -230,6 +230,7 @@ class _MyLoginState extends State<MyLogin> {
   //login function
   Future<void> signIn(String email, String password) async {
     try {
+      // if(user)
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       

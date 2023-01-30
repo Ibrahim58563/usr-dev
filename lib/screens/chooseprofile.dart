@@ -15,6 +15,7 @@ class chooseProf extends StatefulWidget {
 class _chooseProf extends State<chooseProf> {
   List<ChildModel> childModels = [];
   List<dynamic> childs = [];
+  List<dynamic> activeChilds = [];
   final user = FirebaseAuth.instance.currentUser;
   // Future<void> getChildren() async {
   //   final uid = user!.uid;
@@ -47,12 +48,14 @@ class _chooseProf extends State<chooseProf> {
     // print("type is ${childs.toList().runtimeType}");
     // print(childs.keys.toList().elementAt(0).name.cast<String, dynamic>());
     // print(childs[index]['name']);
-
     childs.forEach((element) {
-      if (element['childParent'] == 'r2dhD5lBepRSQwKJwRL2CXaJEfR2') {
+      if (element['parent'] == uid) {
         print("element name is : ${element['name']}");
+        activeChilds.add(element);
       }
     });
+    print(activeChilds);
+    print(activeChilds.length);
     //   for (var element in allChildren) {
     //   childModels.add(ChildModel.fromJson(element));
     //   if (childModels[element].parent == 'MkTl34r0UXQhII1pj4FSZwubPu13') {
@@ -72,7 +75,7 @@ class _chooseProf extends State<chooseProf> {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageProfile() {
+    Widget imageProfile({required String childName}) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -87,7 +90,7 @@ class _chooseProf extends State<chooseProf> {
             padding: EdgeInsets.only(bottom: 140),
             child: ElevatedButton(
                 child: Text(
-                  name,
+                  childName,
                   style: TextStyle(
                     color: HexColor('#D68866'),
                   ),
@@ -112,6 +115,7 @@ class _chooseProf extends State<chooseProf> {
       );
     }
 
+    setState(() {});
     final loginButton = ElevatedButton(
         child: Text(name),
         onPressed: () {
@@ -131,6 +135,7 @@ class _chooseProf extends State<chooseProf> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         ));
+    setState(() {});
     return Container(
       height: 20,
       width: double.infinity,
@@ -153,16 +158,16 @@ class _chooseProf extends State<chooseProf> {
               ),
             ),
           ),
-          SizedBox(
-            height: 400,
-            width: 500,
+          Expanded(
             child: ListView.builder(
-                itemCount: childs.length,
+                itemCount: activeChilds.length,
                 itemBuilder: (context, index) {
                   // print('name ${childs.toList().elementAt(index).name}');
                   return Column(
-                    children: <Widget>[
-                      for (var child in childs) Text(child['name']),
+                    children: [
+                      imageProfile(
+                          childName:
+                              '${activeChilds[index]['name'].toString()}'),
                     ],
                   );
                 }),
@@ -252,3 +257,4 @@ String name = 'اسم الطفل'; // store the childs name in this variable
 //     var phone = data['phone'];
 //   }
 // }
+

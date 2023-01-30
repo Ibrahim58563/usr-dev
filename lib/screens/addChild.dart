@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gpyusr1/screens/chooseCategory.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class addChild extends StatefulWidget {
+  static String? userId;
+
   @override
   State<addChild> createState() => _addChildState();
 }
@@ -15,11 +18,10 @@ class _addChildState extends State<addChild> {
   final ImagePicker _Picker = ImagePicker();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController ageController = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final uid = user!.uid;
+    // final uid = user!.uid;
     var collection = FirebaseFirestore.instance.collection('children');
 
     return Container(
@@ -30,7 +32,6 @@ class _addChildState extends State<addChild> {
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
           foregroundColor: Colors.grey,
-
           //bottomOpacity: 0.0,
         ),
         body: SingleChildScrollView(
@@ -118,13 +119,60 @@ class _addChildState extends State<addChild> {
                 padding: EdgeInsets.all(36),
                 child: ElevatedButton(
                     child: Text('إضافة'),
-                    onPressed: () {
-                      collection.doc() // <-- Document ID
-                          .set({
-                        "name": nameController.text,
-                        "age": ageController.text,
-                        "childParent": uid,
-                      }); // <-- Your data
+                    onPressed: () async {
+                      void result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('تأكيد'),
+                            content: Text(
+                                'تمت إضافة الطفل بنجاح\nهل تريد إضافة طفل آخر؟'),
+                            actions: <Widget>[
+                              new TextButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    collection.doc() // <-- Document ID
+                                        .set({
+                                      "name": nameController.text,
+                                      "age": ageController.text,
+                                      "parent": addChild.userId,
+                                    }); //
+                                    print(
+                                        '${nameController.text} added successfully');
+                                    return chooseCat();
+                                  }));
+                                },
+                                child: Text('No'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    collection.doc() // <-- Document ID
+                                        .set({
+                                      "name": nameController.text,
+                                      "age": ageController.text,
+                                      "parent": addChild.userId,
+                                    }); //
+                                    print(
+                                        '${nameController.text} added successfully');
+                                    return addChild();
+                                  })); // dismisses only the dialog and returns true
+                                },
+                                child: Text('Yes'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      // collection.doc() // <-- Document ID
+                      //     .set({
+                      //   "name": nameController.text,
+                      //   "age": ageController.text,
+                      //   "parent": addChild.userId,
+                      // }); // <-- Your data
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(278, 70),
