@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,10 @@ class _addChildState extends State<addChild> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user!.uid;
+    var collection = FirebaseFirestore.instance.collection('children');
+
     return Container(
       width: 150,
       child: Scaffold(
@@ -113,13 +119,12 @@ class _addChildState extends State<addChild> {
                 child: ElevatedButton(
                     child: Text('إضافة'),
                     onPressed: () {
-                      Navigator.pop(
-                        context,
-                        {
-                          "name": nameController.text,
-                          "age": ageController.text
-                        },
-                      );
+                      collection.doc() // <-- Document ID
+                          .set({
+                        "name": nameController.text,
+                        "age": ageController.text,
+                        "childParent": uid,
+                      }); // <-- Your data
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(278, 70),

@@ -13,29 +13,53 @@ class chooseProf extends StatefulWidget {
 }
 
 class _chooseProf extends State<chooseProf> {
-  final List<ChildModel> childModels = [];
+  List<ChildModel> childModels = [];
+  List<dynamic> childs = [];
+  final user = FirebaseAuth.instance.currentUser;
+  // Future<void> getChildren() async {
+  //   final uid = user!.uid;
+  //   var data =
+  //       await FirebaseFirestore.instance.collection("children").doc().get();
+  //   List dataList = data.data()?['children'];
 
-  Future<dynamic> getChildren() async {
-    final user = FirebaseAuth.instance.currentUser;
+  //   for (var element in dataList) {
+  //     childModels.add(ChildModel.fromJson(element));
+  //     if (childModels[element].parent == 'MkTl34r0UXQhII1pj4FSZwubPu13') {
+  //       print(childModels[element].name);
+  //       print(childModels[element].age);
+  //     }
+  //   }
+
+  //   print('productModelList : ${childModels.toList()}');
+  // }
+
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('children');
+
+  Future<void> getChildren() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
     final uid = user!.uid;
-    final data =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final children = data.data()!['children'];
-    if (data.data()!['children'] == null) {
-      if (!childModels.contains(' ')) {
-        childModels.add(ChildModel(name: ' ', age: ' '));
-        setState(() {});
+    // Get data from docs and convert map to List
+    final allChildren = querySnapshot.docs.map((doc) => doc.data()).toList();
+    childs = allChildren;
+    // print(childs.length);
+    // print("type is ${childs.toList().runtimeType}");
+    // print(childs.keys.toList().elementAt(0).name.cast<String, dynamic>());
+    // print(childs[index]['name']);
+
+    childs.forEach((element) {
+      if (element['childParent'] == 'r2dhD5lBepRSQwKJwRL2CXaJEfR2') {
+        print("element name is : ${element['name']}");
       }
-    } else {
-      for (var child in children) {
-        final childModel = ChildModel(
-          name: child['name'],
-          age: child['age'],
-        );
-        childModels.add(childModel);
-        setState(() {});
-      }
-    }
+    });
+    //   for (var element in allChildren) {
+    //   childModels.add(ChildModel.fromJson(element));
+    //   if (childModels[element].parent == 'MkTl34r0UXQhII1pj4FSZwubPu13') {
+    //     print(childModels[element].name);
+    //     print(childModels[element].age);
+    //   }
+    // }
   }
 
   @override
@@ -129,16 +153,20 @@ class _chooseProf extends State<chooseProf> {
               ),
             ),
           ),
-          (childModels.first.name == ' ')
-              ? Text("There is no Children")
-              : ListView.builder(itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Text(childModels[index].name),
-                      Text(childModels[index].age)
+          SizedBox(
+            height: 400,
+            width: 500,
+            child: ListView.builder(
+                itemCount: childs.length,
+                itemBuilder: (context, index) {
+                  // print('name ${childs.toList().elementAt(index).name}');
+                  return Column(
+                    children: <Widget>[
+                      for (var child in childs) Text(child['name']),
                     ],
                   );
                 }),
+          ),
           TextButton(
             onPressed: () {
               Navigator.push(context,
@@ -204,14 +232,9 @@ class _chooseProf extends State<chooseProf> {
   //get firestore instance
   getChildrenList() async {
     final user = FirebaseAuth.instance.currentUser;
-    final uid = user!.uid;
+    // final uid = user!.uid;
 
-    return await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('child')
-        .doc(uid)
-        .get();
+    return await FirebaseFirestore.instance.collection('children').doc().get();
   }
 }
 

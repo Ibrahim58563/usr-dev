@@ -146,11 +146,18 @@ class _MyRegisterState extends State<MyRegister> {
       padding: EdgeInsets.only(bottom: 0.0),
       child: ElevatedButton(
           child: Text('تسجيل'),
-          onPressed: () {
+          onPressed: ()async {
             signUp(
                 emailController.text, passwordEditingController.text, context);
+            // final dynamic _response = await 
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MyLogin()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => addChild()));
+                              // name = _response["name"];
+                              // age = _response["age"];
+                              // print(name);
+                              // print(age);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(278, 70),
@@ -226,14 +233,14 @@ class _MyRegisterState extends State<MyRegister> {
                               color: Colors.black,
                             ),
                             onPressed: () async {
-                              final dynamic _response = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => addChild()));
-                              name = _response["name"];
-                              age = _response["age"];
-                              print(name);
-                              print(age);
+                              // final dynamic _response = await Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => addChild()));
+                              // name = _response["name"];
+                              // age = _response["age"];
+                              // print(name);
+                              // print(age);
                             },
                           ),
                           SizedBox(
@@ -261,7 +268,7 @@ class _MyRegisterState extends State<MyRegister> {
         final userName = user.displayName;
         final email = user.email;
         final photoUrl = user.photoURL;
-
+        
         // Check if user's email is verified
         final emailVerified = user.emailVerified;
 
@@ -272,12 +279,12 @@ class _MyRegisterState extends State<MyRegister> {
         debugPrint(uid);
         var collection = FirebaseFirestore.instance.collection('users');
         collection
-            .doc(uid).collection('child').doc(uid) // <-- Document ID
+            .doc() // <-- Document ID
             .set({
               'parent': uid,
-              'name': name,
-              'age': age,
-              'photoUrl': 'assets/alpha.png',
+              'name': user.email!,
+              // 'age': age,
+              // 'photoUrl': 'assets/alpha.png',
             }) // <-- Your data
             .then((_) => print('Added'))
             .catchError((error) => print('Add failed: $error'));
