@@ -149,6 +149,7 @@ class _MyRegisterState extends State<MyRegister> {
           onPressed: () async {
             signUp(
                 emailController.text, passwordEditingController.text, context);
+            // print();
             // final dynamic _response = await
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => addChild()));
@@ -216,31 +217,31 @@ class _MyRegisterState extends State<MyRegister> {
                           SizedBox(
                             height: 40,
                           ),
-                          TextButton.icon(
-                            label: Text(
-                              'إضافة طفل',
-                              style: TextStyle(
-                                fontFamily: 'Jomhuria',
-                                fontSize: 30,
-                                color: Colors.black,
-                              ),
-                            ),
-                            icon: Icon(
-                              Icons.add,
-                              size: 40,
-                              color: Colors.black,
-                            ),
-                            onPressed: () async {
-                              // final dynamic _response = await Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => addChild()));
-                              // name = _response["name"];
-                              // age = _response["age"];
-                              // print(name);
-                              // print(age);
-                            },
-                          ),
+                          // TextButton.icon(
+                          //   label: Text(
+                          //     'إضافة طفل',
+                          //     style: TextStyle(
+                          //       fontFamily: 'Jomhuria',
+                          //       fontSize: 30,
+                          //       color: Colors.black,
+                          //     ),
+                          //   ),
+                          //   icon: Icon(
+                          //     Icons.add,
+                          //     size: 40,
+                          //     color: Colors.black,
+                          //   ),
+                          //   onPressed: () async {
+                          //     // final dynamic _response = await Navigator.push(
+                          //     //     context,
+                          //     //     MaterialPageRoute(
+                          //     //         builder: (context) => addChild()));
+                          //     // name = _response["name"];
+                          //     // age = _response["age"];
+                          //     // print(name);
+                          //     // print(age);
+                          //   },
+                          // ),
                           SizedBox(
                             height: 60,
                           ),
@@ -261,35 +262,35 @@ class _MyRegisterState extends State<MyRegister> {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        
         return value;
       });
       final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          final userName = user.displayName;
-          final email = user.email;
-          final photoUrl = user.photoURL;
+      if (user != null) {
+        final userName = user.displayName;
+        final email = user.email;
+        final photoUrl = user.photoURL;
 
-          // Check if user's email is verified
-          final emailVerified = user.emailVerified;
+        // Check if user's email is verified
+        final emailVerified = user.emailVerified;
 
-          // The user's ID, unique to the Firebase project. Do NOT use this value to
-          // authenticate with your backend server, if you have one. Use
-          // User.getIdToken() instead.
-          final uid = user.uid;
-          debugPrint(uid);
-          var collection = FirebaseFirestore.instance.collection('users');
-          collection.doc() // <-- Document ID
-              .set({
-            'parent': user.uid,
-            'name': user.email!,
-            // 'age': age,
-            // 'photoUrl': 'assets/alpha.png',
-          }) // <-- Your data
-              .then((_) {
-            print('Added');
-          }).catchError((error) => print('Add failed: $error'));
-        }
+        // The user's ID, unique to the Firebase project. Do NOT use this value to
+        // authenticate with your backend server, if you have one. Use
+        // User.getIdToken() instead.
+        final uid = user.uid;
+        addChild.userId = uid;
+        debugPrint(uid);
+        var collection = FirebaseFirestore.instance.collection('users');
+        collection.doc() // <-- Document ID
+            .set({
+          'parent': user.uid,
+          'name': user.email!,
+          // 'age': age,
+          // 'photoUrl': 'assets/alpha.png',
+        }) // <-- Your data
+            .then((_) {
+          print('Added');
+        }).catchError((error) => print('Add failed: $error'));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
